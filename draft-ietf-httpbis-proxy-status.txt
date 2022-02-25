@@ -276,7 +276,7 @@ Table of Contents
 
 2.1.1.  error
 
-   The error parameter's value is An sf-token that is a Proxy Error
+   The error parameter's value is an sf-token that is a Proxy Error
    Type.  When present, it indicates that the intermediary encountered
    an issue when obtaining this response.
 
@@ -338,7 +338,7 @@ Table of Contents
 
 2.1.2.  next-hop
 
-   The next-hop parameter's value is An sf-string or sf-token that
+   The next-hop parameter's value is an sf-string or sf-token that
    identifies the intermediary or origin server selected (and used, if
    contacted) to obtain this response.  It might be a hostname, IP
    address, or alias.
@@ -357,10 +357,10 @@ Table of Contents
    protocol used by the intermediary to connect to the next hop when
    obtaining this response.
 
-   The value MUST be either An sf-token or sf-binary, representing a TLS
+   The value MUST be either an sf-token or sf-binary, representing a TLS
    ALPN protocol ID (see <https://www.iana.org/assignments/tls-
    extensiontype-values/tls-extensiontype-values.xhtml#alpn-protocol-
-   ids>).  If the protocol identifier is able to be expressed as An sf-
+   ids>).  If the protocol identifier is able to be expressed as an sf-
    token using ASCII encoding, that form MUST be used.
 
    For example:
@@ -377,7 +377,7 @@ Table of Contents
    that the intermediary received from the next-hop server when
    obtaining this response.
 
-   The value MUST be An sf-integer.
+   The value MUST be an sf-integer.
 
    For example:
 
@@ -385,7 +385,7 @@ Table of Contents
 
 2.1.5.  details
 
-   The details parameter's value is An sf-string containing additional
+   The details parameter's value is an sf-string containing additional
    information not captured anywhere else.  This can include
    implementation-specific or deployment-specific information.
 
