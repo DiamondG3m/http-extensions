@@ -1311,7 +1311,7 @@ partial:  </dt>
 <a href="#section-2.3" class="section-number selfRef">2.3. </a><a href="#name-the-fwd-status-parameter" class="section-name selfRef">The fwd-status Parameter</a>
         </h3>
 <p id="section-2.3-1">"fwd-status" indicates which status code (see <span>[<a href="#HTTP" class="xref">HTTP</a>], <a href="https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-semantics-19#section-15" class="relref">Section 15</a></span>) the next-hop server returned in response to the forwarded request. Only meaningful when "fwd" is present; if "fwd-status" is not present but "fwd" is, it defaults to the status code sent in the response.<a href="#section-2.3-1" class="pilcrow">¶</a></p>
-<p id="section-2.3-2">This parameter is useful to distinguish cases when the next-hop server sends a 304 Not Modified response to a conditional request or a 206 (Partial Content) response because of a range request.<a href="#section-2.3-2" class="pilcrow">¶</a></p>
+<p id="section-2.3-2">This parameter is useful to distinguish cases when the next-hop server sends a 304 (Not Modified) response to a conditional request or a 206 (Partial Content) response because of a range request.<a href="#section-2.3-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="the-ttl-parameter">
@@ -1434,8 +1434,8 @@ Cache-Status: BrowserCache; fwd=uri-miss
 <a href="#section-4" class="section-number selfRef">4. </a><a href="#name-defining-new-cache-status-p" class="section-name selfRef">Defining New Cache-Status Parameters</a>
       </h2>
 <p id="section-4-1">New Cache-Status Parameters can be defined by registering them in the "HTTP Cache-Status" registry.<a href="#section-4-1" class="pilcrow">¶</a></p>
-<p id="section-4-2">Registration requests are reviewed and approved by a Designated Expert, as per <span>[<a href="#RFC8126" class="xref">RFC8126</a>], <a href="https://rfc-editor.org/rfc/rfc8126#section-4.5" class="relref">Section 4.5</a></span>. A specification document is appreciated, but not required.<a href="#section-4-2" class="pilcrow">¶</a></p>
-<p id="section-4-3">The Expert(s) should consider the following factors when evaluating requests:<a href="#section-4-3" class="pilcrow">¶</a></p>
+<p id="section-4-2">Registration requests are reviewed and approved by a designated expert, per <span>[<a href="#RFC8126" class="xref">RFC8126</a>], <a href="https://rfc-editor.org/rfc/rfc8126#section-4.5" class="relref">Section 4.5</a></span>. A specification document is appreciated, but not required.<a href="#section-4-2" class="pilcrow">¶</a></p>
+<p id="section-4-3">The expert(s) should consider the following factors when evaluating requests:<a href="#section-4-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4-4.1">Community feedback<a href="#section-4-4.1" class="pilcrow">¶</a>
 </li>
@@ -1543,7 +1543,7 @@ Reference:  </dt>
 <dl class="references">
 <dt id="ENTANGLE">[ENTANGLE]</dt>
       <dd>
-<span class="refAuthor">Kettle, J.</span>, <span class="refTitle">"Web Cache Entanglement: Novel Pathways to Poisoning"</span>, <time datetime="2020" class="refDate">2020</time>, <span>&lt;<a href="https://i.blackhat.com/USA-20/Wednesday/us-20-Kettle-Web-Cache-Entanglement-Novel-Pathways-To-Poisoning-wp.pdf">https://i.blackhat.com/USA-20/Wednesday/us-20-Kettle-Web-Cache-Entanglement-Novel-Pathways-To-Poisoning-wp.pdf</a>&gt;</span>. </dd>
+<span class="refAuthor">Kettle, J.</span>, <span class="refTitle">"Web Cache Entanglement: Novel Pathways to Poisoning"</span>, <time datetime="2020" class="refDate">2020</time>, <span>&lt;<a href="https://portswigger.net/research/web-cache-entanglement">https://portswigger.net/research/web-cache-entanglement</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>

@@ -233,8 +233,8 @@ Table of Contents
    "fwd" is, it defaults to the status code sent in the response.
 
    This parameter is useful to distinguish cases when the next-hop
-   server sends a 304 Not Modified response to a conditional request or
-   a 206 (Partial Content) response because of a range request.
+   server sends a 304 (Not Modified) response to a conditional request
+   or a 206 (Partial Content) response because of a range request.
 
 2.4.  The ttl Parameter
 
@@ -340,11 +340,11 @@ Table of Contents
    New Cache-Status Parameters can be defined by registering them in the
    "HTTP Cache-Status" registry.
 
-   Registration requests are reviewed and approved by a Designated
-   Expert, as per [RFC8126], Section 4.5.  A specification document is
+   Registration requests are reviewed and approved by a designated
+   expert, per [RFC8126], Section 4.5.  A specification document is
    appreciated, but not required.
 
-   The Expert(s) should consider the following factors when evaluating
+   The expert(s) should consider the following factors when evaluating
    requests:
 
    *  Community feedback
@@ -457,9 +457,8 @@ Table of Contents
 7.2.  Informative References
 
    [ENTANGLE] Kettle, J., "Web Cache Entanglement: Novel Pathways to
-              Poisoning", 2020, <https://i.blackhat.com/USA-
-              20/Wednesday/us-20-Kettle-Web-Cache-Entanglement-Novel-
-              Pathways-To-Poisoning-wp.pdf>.
+              Poisoning", 2020,
+              <https://portswigger.net/research/web-cache-entanglement>.
 
 Author's Address
 
