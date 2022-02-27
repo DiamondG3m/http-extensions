@@ -615,7 +615,6 @@ Author's Address
 
    Mark Nottingham
    Prahran
-   VIC
    Australia
    Email: mnot@mnot.net
    URI:   https://www.mnot.net/
