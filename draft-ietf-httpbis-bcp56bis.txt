@@ -1388,9 +1388,7 @@ Table of Contents
               <https://www.rfc-editor.org/rfc/rfc3986>.
 
    [WEB-LINKING]
-              Nottingham, M., "Web Linking", RFC 8288,
-              DOI 10.17487/RFC8288, October 2017,
-              <https://www.rfc-editor.org/rfc/rfc8288>.
+              "*** BROKEN REFERENCE ***".
 
    [WELL-KNOWN-URI]
               Nottingham, M., "Well-Known Uniform Resource Identifiers
