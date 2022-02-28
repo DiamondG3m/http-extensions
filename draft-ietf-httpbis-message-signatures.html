@@ -12,11 +12,11 @@
        This document describes a mechanism for creating, encoding, and verifying digital signatures or message authentication codes over components of an HTTP message.  This mechanism supports use cases where the full HTTP message may not be known to the signer, and where the message may be transformed (e.g., by intermediaries) before reaching the verifier.
 This document also describes a means for requesting that a signature be applied to a subsequent HTTP message in an ongoing HTTP exchange. 
     " name="description">
-<meta content="xml2rfc 3.12.2" name="generator">
+<meta content="xml2rfc 3.12.3" name="generator">
 <meta content="PKI" name="keyword">
 <meta content="draft-ietf-httpbis-message-signatures" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.12.2
+  xml2rfc 3.12.3
     Python 3.9.7
     appdirs 1.4.4
     ConfigArgParse 1.3
@@ -26,6 +26,7 @@ This document also describes a means for requesting that a signature be applied 
     Jinja2 2.11.3
     kitchen 1.2.6
     lxml 4.6.5
+    MarkupSafe 2.0.1
     pycountry 20.7.3
     pyflakes 2.3.1
     PyYAML 5.4.1
@@ -1019,7 +1020,7 @@ svg [stroke="fill"], svg [fill^="#fff"] {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Backman, et al.</td>
-<td class="center">Expires 31 August 2022</td>
+<td class="center">Expires 1 September 2022</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1032,12 +1033,12 @@ svg [stroke="fill"], svg [fill^="#fff"] {
 <dd class="internet-draft">draft-ietf-httpbis-message-signatures</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2022-02-27" class="published">27 February 2022</time>
+<time datetime="2022-02-28" class="published">28 February 2022</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2022-08-31">31 August 2022</time></dd>
+<dd class="expires"><time datetime="2022-09-01">1 September 2022</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1096,7 +1097,7 @@ This document also describes a means for requesting that a signature be applied 
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 31 August 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 1 September 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1557,74 +1558,62 @@ appear in all capitals, as shown here.<a href="#section-1.4-1" class="pilcrow">�
 <p id="section-1.4-4">For brevity, the term "signature" on its own is used in this document to refer to both digital signatures (which use asymmetric cryptography) and keyed MACs (which use symmetric cryptography). Similarly, the verb "sign" refers to the generation of either a digital signature or keyed MAC over a given input string. The qualified term "digital signature" refers specifically to the output of an asymmetric cryptographic signing operation.<a href="#section-1.4-4" class="pilcrow">¶</a></p>
 <p id="section-1.4-5">In addition to those listed above, this document uses the following terms:<a href="#section-1.4-5" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlNewline" id="section-1.4-6">
-          <dt id="section-1.4-6.1">
-HTTP Message Signature:  </dt>
+          <dt id="section-1.4-6.1">HTTP Message Signature:</dt>
           <dd style="margin-left: 1.5em" id="section-1.4-6.2">
             <p id="section-1.4-6.2.1">A digital signature or keyed MAC that covers one or more portions of an HTTP message. Note that a given HTTP Message can contain multiple HTTP Message Signatures.<a href="#section-1.4-6.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.4-6.3">
-Signer:  </dt>
+<dt id="section-1.4-6.3">Signer:</dt>
           <dd style="margin-left: 1.5em" id="section-1.4-6.4">
             <p id="section-1.4-6.4.1">The entity that is generating or has generated an HTTP Message Signature. Note that multiple entities can act as signers and apply separate HTTP Message Signatures to a given HTTP Message.<a href="#section-1.4-6.4.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.4-6.5">
-Verifier:  </dt>
+<dt id="section-1.4-6.5">Verifier:</dt>
           <dd style="margin-left: 1.5em" id="section-1.4-6.6">
             <p id="section-1.4-6.6.1">An entity that is verifying or has verified an HTTP Message Signature against an HTTP Message.  Note that an HTTP Message Signature may be verified multiple times, potentially by different entities.<a href="#section-1.4-6.6.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.4-6.7">
-HTTP Message Component:  </dt>
+<dt id="section-1.4-6.7">HTTP Message Component:</dt>
           <dd style="margin-left: 1.5em" id="section-1.4-6.8">
             <p id="section-1.4-6.8.1">A portion of an HTTP message that is capable of being covered by an HTTP Message Signature.<a href="#section-1.4-6.8.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.4-6.9">
-HTTP Message Component Identifier:  </dt>
+<dt id="section-1.4-6.9">HTTP Message Component Identifier:</dt>
           <dd style="margin-left: 1.5em" id="section-1.4-6.10">
             <p id="section-1.4-6.10.1">A value that uniquely identifies a specific HTTP Message Component in respect to a particular HTTP Message Signature and the HTTP Message it applies to.<a href="#section-1.4-6.10.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.4-6.11">
-HTTP Message Component Value:  </dt>
+<dt id="section-1.4-6.11">HTTP Message Component Value:</dt>
           <dd style="margin-left: 1.5em" id="section-1.4-6.12">
             <p id="section-1.4-6.12.1">The value associated with a given component identifier within the context of a particular HTTP Message. Component values are derived from the HTTP Message and are usually subject to a canonicalization process.<a href="#section-1.4-6.12.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.4-6.13">
-Covered Components:  </dt>
+<dt id="section-1.4-6.13">Covered Components:</dt>
           <dd style="margin-left: 1.5em" id="section-1.4-6.14">
             <p id="section-1.4-6.14.1">An ordered set of HTTP message component identifiers for fields (<a href="#http-header" class="xref">Section 2.1</a>) and derived components (<a href="#derived-components" class="xref">Section 2.2</a>) that indicates the set of message components covered by the signature, never including the <code>@signature-params</code> identifier itself. The order of this set is preserved and communicated between the signer and verifier to facilitate reconstruction of the signature input.<a href="#section-1.4-6.14.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.4-6.15">
-Signature Input:  </dt>
+<dt id="section-1.4-6.15">Signature Input:</dt>
           <dd style="margin-left: 1.5em" id="section-1.4-6.16">
             <p id="section-1.4-6.16.1">The sequence of bytes processed by the cryptographic algorithm to produce or verify the HTTP Message Signature. The signature input is generated by the signer and verifier using the covered components set and the HTTP Message.<a href="#section-1.4-6.16.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.4-6.17">
-HTTP Message Signature Algorithm:  </dt>
+<dt id="section-1.4-6.17">HTTP Message Signature Algorithm:</dt>
           <dd style="margin-left: 1.5em" id="section-1.4-6.18">
             <p id="section-1.4-6.18.1">A cryptographic algorithm that describes the signing and verification process for the signature, defined in terms of the <code>HTTP_SIGN</code> and <code>HTTP_VERIFY</code> primitives described in <a href="#signature-methods" class="xref">Section 3.3</a>.<a href="#section-1.4-6.18.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.4-6.19">
-Key Material:  </dt>
+<dt id="section-1.4-6.19">Key Material:</dt>
           <dd style="margin-left: 1.5em" id="section-1.4-6.20">
             <p id="section-1.4-6.20.1">The key material required to create or verify the signature. The key material is often identified with an explicit key identifier, allowing the signer to indicate to the verifier which key was used.<a href="#section-1.4-6.20.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.4-6.21">
-Creation Time:  </dt>
+<dt id="section-1.4-6.21">Creation Time:</dt>
           <dd style="margin-left: 1.5em" id="section-1.4-6.22">
             <p id="section-1.4-6.22.1">A timestamp representing the point in time that the signature was generated, as asserted by the signer.<a href="#section-1.4-6.22.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.4-6.23">
-Expiration Time:  </dt>
+<dt id="section-1.4-6.23">Expiration Time:</dt>
           <dd style="margin-left: 1.5em" id="section-1.4-6.24">
             <p id="section-1.4-6.24.1">A timestamp representing the point in time after which the signature should no longer be accepted by the verifier, as asserted by the signer.<a href="#section-1.4-6.24.1" class="pilcrow">¶</a></p>
 </dd>
@@ -1802,68 +1791,57 @@ Example-Dict:  a=1, b=2;x=1;y=2, c=(a   b    c)
 <p id="section-2.2-2">Derived component identifiers <span class="bcp14">MUST</span> start with the "at" <code>@</code> character. This differentiates derived component identifiers from HTTP field names, which cannot contain the <code>@</code> character as per <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-semantics-19#section-5.1" class="relref">Section 5.1</a> of [<a href="#SEMANTICS" class="xref">SEMANTICS</a>]</span>. Processors of HTTP Message Signatures <span class="bcp14">MUST</span> treat derived component identifiers separately from field names, as discussed in <a href="#security-lazy-header-parser" class="xref">Section 7.18</a>.<a href="#section-2.2-2" class="pilcrow">¶</a></p>
 <p id="section-2.2-3">This specification defines the following derived component identifiers:<a href="#section-2.2-3" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-2.2-4">
-          <dt id="section-2.2-4.1">
-@signature-params  </dt>
+          <dt id="section-2.2-4.1">@signature-params</dt>
           <dd style="margin-left: 1.5em" id="section-2.2-4.2">
             <p id="section-2.2-4.2.1">The signature metadata parameters for this signature. (<a href="#signature-params" class="xref">Section 2.2.1</a>)<a href="#section-2.2-4.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-2.2-4.3">
-@method  </dt>
+<dt id="section-2.2-4.3">@method</dt>
           <dd style="margin-left: 1.5em" id="section-2.2-4.4">
             <p id="section-2.2-4.4.1">The method used for a request. (<a href="#content-request-method" class="xref">Section 2.2.2</a>)<a href="#section-2.2-4.4.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-2.2-4.5">
-@target-uri  </dt>
+<dt id="section-2.2-4.5">@target-uri</dt>
           <dd style="margin-left: 1.5em" id="section-2.2-4.6">
             <p id="section-2.2-4.6.1">The full target URI for a request. (<a href="#content-target-uri" class="xref">Section 2.2.3</a>)<a href="#section-2.2-4.6.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-2.2-4.7">
-@authority  </dt>
+<dt id="section-2.2-4.7">@authority</dt>
           <dd style="margin-left: 1.5em" id="section-2.2-4.8">
             <p id="section-2.2-4.8.1">The authority of the target URI for a request. (<a href="#content-request-authority" class="xref">Section 2.2.4</a>)<a href="#section-2.2-4.8.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-2.2-4.9">
-@scheme  </dt>
+<dt id="section-2.2-4.9">@scheme</dt>
           <dd style="margin-left: 1.5em" id="section-2.2-4.10">
             <p id="section-2.2-4.10.1">The scheme of the target URI for a request. (<a href="#content-request-scheme" class="xref">Section 2.2.5</a>)<a href="#section-2.2-4.10.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-2.2-4.11">
-@request-target  </dt>
+<dt id="section-2.2-4.11">@request-target</dt>
           <dd style="margin-left: 1.5em" id="section-2.2-4.12">
             <p id="section-2.2-4.12.1">The request target. (<a href="#content-request-target" class="xref">Section 2.2.6</a>)<a href="#section-2.2-4.12.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-2.2-4.13">
-@path  </dt>
+<dt id="section-2.2-4.13">@path</dt>
           <dd style="margin-left: 1.5em" id="section-2.2-4.14">
             <p id="section-2.2-4.14.1">The absolute path portion of the target URI for a request. (<a href="#content-request-path" class="xref">Section 2.2.7</a>)<a href="#section-2.2-4.14.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-2.2-4.15">
-@query  </dt>
+<dt id="section-2.2-4.15">@query</dt>
           <dd style="margin-left: 1.5em" id="section-2.2-4.16">
             <p id="section-2.2-4.16.1">The query portion of the target URI for a request. (<a href="#content-request-query" class="xref">Section 2.2.8</a>)<a href="#section-2.2-4.16.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-2.2-4.17">
-@query-params  </dt>
+<dt id="section-2.2-4.17">@query-params</dt>
           <dd style="margin-left: 1.5em" id="section-2.2-4.18">
             <p id="section-2.2-4.18.1">The parsed query parameters of the target URI for a request. (<a href="#content-request-query-params" class="xref">Section 2.2.9</a>)<a href="#section-2.2-4.18.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-2.2-4.19">
-@status  </dt>
+<dt id="section-2.2-4.19">@status</dt>
           <dd style="margin-left: 1.5em" id="section-2.2-4.20">
             <p id="section-2.2-4.20.1">The status code for a response. (<a href="#content-status-code" class="xref">Section 2.2.10</a>).<a href="#section-2.2-4.20.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-2.2-4.21">
-@request-response  </dt>
+<dt id="section-2.2-4.21">@request-response</dt>
           <dd style="margin-left: 1.5em" id="section-2.2-4.22">
             <p id="section-2.2-4.22.1">A signature from a request message that resulted in this response message. (<a href="#content-request-response" class="xref">Section 2.2.11</a>)<a href="#section-2.2-4.22.1" class="pilcrow">¶</a></p>
 </dd>
@@ -1872,20 +1850,17 @@ Example-Dict:  a=1, b=2;x=1;y=2, c=(a   b    c)
 <p id="section-2.2-5">Additional derived component identifiers <span class="bcp14">MAY</span> be defined and registered in the HTTP Signatures Derived Component Identifier Registry. (<a href="#content-registry" class="xref">Section 6.3</a>)<a href="#section-2.2-5" class="pilcrow">¶</a></p>
 <p id="section-2.2-6">Derived components can be applied in one or more of three targets:<a href="#section-2.2-6" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-2.2-7">
-          <dt id="section-2.2-7.1">
-request:  </dt>
+          <dt id="section-2.2-7.1">request:</dt>
           <dd style="margin-left: 1.5em" id="section-2.2-7.2">
             <p id="section-2.2-7.2.1">Values derived from and results applied to an HTTP request message as described in {{Section 3.4 of SEMANTICS.<a href="#section-2.2-7.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-2.2-7.3">
-response:  </dt>
+<dt id="section-2.2-7.3">response:</dt>
           <dd style="margin-left: 1.5em" id="section-2.2-7.4">
             <p id="section-2.2-7.4.1">Values derived from and results applied to an HTTP response message as described in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-semantics-19#section-3.4" class="relref">Section 3.4</a> of [<a href="#SEMANTICS" class="xref">SEMANTICS</a>]</span>.<a href="#section-2.2-7.4.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-2.2-7.5">
-related-response:  </dt>
+<dt id="section-2.2-7.5">related-response:</dt>
           <dd style="margin-left: 1.5em" id="section-2.2-7.6">
             <p id="section-2.2-7.6.1">Values derived from an HTTP request message and results applied to the HTTP response message that is responding to that specific request.<a href="#section-2.2-7.6.1" class="pilcrow">¶</a></p>
 </dd>
@@ -2248,8 +2223,7 @@ Date: Fri, 26 Mar 2010 00:05:00 GMT
           </h4>
 <p id="section-2.2.11-1">When a signed request message results in a signed response message, the <code>@request-response</code> component identifier can be used to cryptographically link the request and the response to each other by including the identified request signature value in the response's signature input without copying the value of the request's signature to the response directly. This component identifier has a single <span class="bcp14">REQUIRED</span> parameter:<a href="#section-2.2.11-1" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-2.2.11-2">
-            <dt id="section-2.2.11-2.1">
-<code>key</code>  </dt>
+            <dt id="section-2.2.11-2.1"><code>key</code></dt>
             <dd style="margin-left: 1.5em" id="section-2.2.11-2.2">
               <p id="section-2.2.11-2.2.1">Identifies which signature from the response to sign.<a href="#section-2.2.11-2.2.1" class="pilcrow">¶</a></p>
 </dd>
@@ -3030,26 +3004,22 @@ Accept-Signature: sig1=("@method" "@target-uri" "@authority" \
 <a href="#section-6.1.1" class="section-number selfRef">6.1.1. </a><a href="#name-registration-template" class="section-name selfRef">Registration Template</a>
           </h4>
 <span class="break"></span><dl class="dlNewline" id="section-6.1.1-1">
-            <dt id="section-6.1.1-1.1">
-Algorithm Name:  </dt>
+            <dt id="section-6.1.1-1.1">Algorithm Name:</dt>
             <dd style="margin-left: 1.5em" id="section-6.1.1-1.2">
               <p id="section-6.1.1-1.2.1">An identifier for the HTTP Signature Algorithm. The name <span class="bcp14">MUST</span> be an ASCII string consisting only of lower-case characters (<code>"a"</code> - <code>"z"</code>), digits (<code>"0"</code> - <code>"9"</code>), and hyphens (<code>"-"</code>), and <span class="bcp14">SHOULD NOT</span> exceed 20 characters in length.  The identifier <span class="bcp14">MUST</span> be unique within the context of the registry.<a href="#section-6.1.1-1.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-6.1.1-1.3">
-Status:  </dt>
+<dt id="section-6.1.1-1.3">Status:</dt>
             <dd style="margin-left: 1.5em" id="section-6.1.1-1.4">
               <p id="section-6.1.1-1.4.1">A brief text description of the status of the algorithm.  The description <span class="bcp14">MUST</span> begin with one of "Active" or "Deprecated", and <span class="bcp14">MAY</span> provide further context or explanation as to the reason for the status.<a href="#section-6.1.1-1.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-6.1.1-1.5">
-Description:  </dt>
+<dt id="section-6.1.1-1.5">Description:</dt>
             <dd style="margin-left: 1.5em" id="section-6.1.1-1.6">
               <p id="section-6.1.1-1.6.1">A brief description of the algorithm used to sign the signature input string.<a href="#section-6.1.1-1.6.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-6.1.1-1.7">
-Specification document(s):  </dt>
+<dt id="section-6.1.1-1.7">Specification document(s):</dt>
             <dd style="margin-left: 1.5em" id="section-6.1.1-1.8">
               <p id="section-6.1.1-1.8.1">Reference to the document(s) that specify the token endpoint
   authorization method, preferably including a URI that can be used
@@ -3139,20 +3109,17 @@ Specification document(s):  </dt>
 <a href="#section-6.2.1" class="section-number selfRef">6.2.1. </a><a href="#name-registration-template-2" class="section-name selfRef">Registration Template</a>
           </h4>
 <span class="break"></span><dl class="dlNewline" id="section-6.2.1-1">
-            <dt id="section-6.2.1-1.1">
-Name:  </dt>
+            <dt id="section-6.2.1-1.1">Name:</dt>
             <dd style="margin-left: 1.5em" id="section-6.2.1-1.2">
               <p id="section-6.2.1-1.2.1">An identifier for the HTTP signature metadata parameter. The name <span class="bcp14">MUST</span> be an ASCII string consisting only of lower-case characters (<code>"a"</code> - <code>"z"</code>), digits (<code>"0"</code> - <code>"9"</code>), and hyphens (<code>"-"</code>), and <span class="bcp14">SHOULD NOT</span> exceed 20 characters in length.  The identifier <span class="bcp14">MUST</span> be unique within the context of the registry.<a href="#section-6.2.1-1.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-6.2.1-1.3">
-Description:  </dt>
+<dt id="section-6.2.1-1.3">Description:</dt>
             <dd style="margin-left: 1.5em" id="section-6.2.1-1.4">
               <p id="section-6.2.1-1.4.1">A brief description of the metadata parameter and what it represents.<a href="#section-6.2.1-1.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-6.2.1-1.5">
-Specification document(s):  </dt>
+<dt id="section-6.2.1-1.5">Specification document(s):</dt>
             <dd style="margin-left: 1.5em" id="section-6.2.1-1.6">
               <p id="section-6.2.1-1.6.1">Reference to the document(s) that specify the token endpoint
   authorization method, preferably including a URI that can be used
@@ -3240,26 +3207,22 @@ Specification document(s):  </dt>
 <a href="#section-6.3.1" class="section-number selfRef">6.3.1. </a><a href="#name-registration-template-3" class="section-name selfRef">Registration Template</a>
           </h4>
 <span class="break"></span><dl class="dlNewline" id="section-6.3.1-1">
-            <dt id="section-6.3.1-1.1">
-Identifier:  </dt>
+            <dt id="section-6.3.1-1.1">Identifier:</dt>
             <dd style="margin-left: 1.5em" id="section-6.3.1-1.2">
               <p id="section-6.3.1-1.2.1">An identifier for the HTTP derived component identifier. The name <span class="bcp14">MUST</span> begin with the <code>"@"</code> character followed by an ASCII string consisting only of lower-case characters (<code>"a"</code> - <code>"z"</code>), digits (<code>"0"</code> - <code>"9"</code>), and hyphens (<code>"-"</code>), and <span class="bcp14">SHOULD NOT</span> exceed 20 characters in length.  The identifier <span class="bcp14">MUST</span> be unique within the context of the registry.<a href="#section-6.3.1-1.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-6.3.1-1.3">
-Status:  </dt>
+<dt id="section-6.3.1-1.3">Status:</dt>
             <dd style="margin-left: 1.5em" id="section-6.3.1-1.4">
               <p id="section-6.3.1-1.4.1">A brief text description of the status of the algorithm.  The description <span class="bcp14">MUST</span> begin with one of "Active" or "Deprecated", and <span class="bcp14">MAY</span> provide further context or explanation as to the reason for the status.<a href="#section-6.3.1-1.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-6.3.1-1.5">
-Target:  </dt>
+<dt id="section-6.3.1-1.5">Target:</dt>
             <dd style="margin-left: 1.5em" id="section-6.3.1-1.6">
               <p id="section-6.3.1-1.6.1">The valid message targets for the derived parameter. <span class="bcp14">MUST</span> be one of the values "Request", "Request, Response", "Request, Related-Response", or "Related-Response". The semantics of these are defined in <a href="#derived-components" class="xref">Section 2.2</a>.<a href="#section-6.3.1-1.6.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-6.3.1-1.7">
-Specification document(s):  </dt>
+<dt id="section-6.3.1-1.7">Specification document(s):</dt>
             <dd style="margin-left: 1.5em" id="section-6.3.1-1.8">
               <p id="section-6.3.1-1.8.1">Reference to the document(s) that specify the token endpoint
   authorization method, preferably including a URI that can be used
@@ -3602,14 +3565,12 @@ Specification document(s):  </dt>
         </h3>
 <p id="section-7.20-1">Some HTTP fields have values and interpretations that are similar to HTTP signature parameters or derived components. In most cases, it is more desirable to sign the non-field alternative. In particular, the following fields should usually not be included in the signature unless the application specifically requires it:<a href="#section-7.20-1" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-7.20-2">
-          <dt id="section-7.20-2.1">
-"date"  </dt>
+          <dt id="section-7.20-2.1">"date"</dt>
           <dd style="margin-left: 1.5em" id="section-7.20-2.2">
             <p id="section-7.20-2.2.1">The "date" field value represents the timestamp of the HTTP message. However, the creation time of the signature itself is encoded in the <code>created</code> signature parameter. These two values can be different, depending on how the signature and the HTTP message are created and serialized. Applications processing signatures for valid time windows should use the <code>created</code> signature parameter for such calculations. An application could also put limits on how much skew there is between the "date" field and the <code>created</code> signature parameter, in order to limit the application of a generated signature to different HTTP messages. See also <a href="#security-replay" class="xref">Section 7.3</a> and <a href="#security-coverage" class="xref">Section 7.4</a>.<a href="#section-7.20-2.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-7.20-2.3">
-"host"  </dt>
+<dt id="section-7.20-2.3">"host"</dt>
           <dd style="margin-left: 1.5em" id="section-7.20-2.4">
             <p id="section-7.20-2.4.1">The "host" header field is specific to HTTP 1.1, and its functionality is subsumed by the "@authority" derived component, defined in <a href="#content-request-authority" class="xref">Section 2.2.4</a>. In order to preserve the value across different HTTP versions, applications should always use the "@authority" derived component.<a href="#section-7.20-2.4.1" class="pilcrow">¶</a></p>
 </dd>

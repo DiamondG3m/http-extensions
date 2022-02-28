@@ -10,11 +10,11 @@
        Applications often use HTTP as a substrate to create HTTP-based APIs. This document specifies best practices for writing specifications that use HTTP to define new application protocols. It is written primarily to guide IETF efforts to define application protocols using HTTP for deployment on the Internet but might be applicable in other situations. 
        This document obsoletes RFC3205. 
     " name="description">
-<meta content="xml2rfc 3.12.2" name="generator">
+<meta content="xml2rfc 3.12.3" name="generator">
 <meta content="HTTP API" name="keyword">
 <meta content="draft-ietf-httpbis-bcp56bis" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.12.2
+  xml2rfc 3.12.3
     Python 3.9.7
     appdirs 1.4.4
     ConfigArgParse 1.3
@@ -24,6 +24,7 @@
     Jinja2 2.11.3
     kitchen 1.2.6
     lxml 4.6.5
+    MarkupSafe 2.0.1
     pycountry 20.7.3
     pyflakes 2.3.1
     PyYAML 5.4.1
@@ -1017,7 +1018,7 @@ svg [stroke="fill"], svg [fill^="#fff"] {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Nottingham</td>
-<td class="center">Expires 31 August 2022</td>
+<td class="center">Expires 1 September 2022</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1033,12 +1034,12 @@ svg [stroke="fill"], svg [fill^="#fff"] {
 <a href="https://www.rfc-editor.org/rfc/rfc3205" class="eref">3205</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2022-02-27" class="published">27 February 2022</time>
+<time datetime="2022-02-28" class="published">28 February 2022</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Best Current Practice</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2022-08-31">31 August 2022</time></dd>
+<dd class="expires"><time datetime="2022-09-01">1 September 2022</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1087,7 +1088,7 @@ svg [stroke="fill"], svg [fill^="#fff"] {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 31 August 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 1 September 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1511,20 +1512,17 @@ value with the "example-other-info" link relation type.<a href="#section-4.2-6.3
 <p id="section-4.3-2">One way to do this is to define it in terms of <span>[<a href="#FETCH" class="xref">FETCH</a>]</span> since that is the abstraction that browsers use for HTTP.<a href="#section-4.3-2" class="pilcrow">¶</a></p>
 <p id="section-4.3-3">Some client behaviours (e.g., automatic redirect handling) and extensions (e.g., Cookies) are not required by HTTP but nevertheless have become very common. If their use is not explicitly specified by applications using HTTP, there may be confusion and interoperability problems. In particular:<a href="#section-4.3-3" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-4.3-4">
-          <dt id="section-4.3-4.1">
-Redirect handling:  </dt>
+          <dt id="section-4.3-4.1">Redirect handling:</dt>
           <dd style="margin-left: 1.5em" id="section-4.3-4.2">
             <p id="section-4.3-4.2.1">Applications need to specify how redirects are expected to be handled; see <a href="#redirects" class="xref">Section 4.6.1</a>.<a href="#section-4.3-4.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-4.3-4.3">
-Cookies:  </dt>
+<dt id="section-4.3-4.3">Cookies:</dt>
           <dd style="margin-left: 1.5em" id="section-4.3-4.4">
             <p id="section-4.3-4.4.1">Applications using HTTP should explicitly reference the Cookie specification <span>[<a href="#COOKIES" class="xref">COOKIES</a>]</span> if they are required.<a href="#section-4.3-4.4.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-4.3-4.5">
-Certificates:  </dt>
+<dt id="section-4.3-4.5">Certificates:</dt>
           <dd style="margin-left: 1.5em" id="section-4.3-4.6">
             <p id="section-4.3-4.6.1">Applications using HTTP should specify that TLS certificates are to be checked according to <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-semantics-19#section-4.3.4" class="relref">Section 4.3.4</a> of [<a href="#HTTP" class="xref">HTTP</a>]</span> when HTTPS is used.<a href="#section-4.3-4.6.1" class="pilcrow">¶</a></p>
 </dd>
@@ -2025,7 +2023,7 @@ Referrer-Policy: no-referrer
 <dd class="break"></dd>
 <dt id="WEB-LINKING">[WEB-LINKING]</dt>
         <dd>
-<span class="refTitle">"*** BROKEN REFERENCE ***"</span>. </dd>
+<span class="refAuthor">Nottingham, M.</span>, <span class="refTitle">"Web Linking"</span>, <span class="seriesInfo">RFC 8288</span>, <span class="seriesInfo">DOI 10.17487/RFC8288</span>, <time datetime="2017-10" class="refDate">October 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8288">https://www.rfc-editor.org/rfc/rfc8288</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="WELL-KNOWN-URI">[WELL-KNOWN-URI]</dt>
       <dd>
