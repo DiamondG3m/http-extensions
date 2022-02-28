@@ -307,10 +307,15 @@ Table of Contents
    on an empty string (see Section 6.3).
 
    Representation-Digest is a Structured Fields Dictionary (see
-   Section 3.2 of [STRUCTURED-FIELDS]) where: * members cannot have
-   parameters; * keys convey the hashing algorithm (see Section 5) used
-   to compute the digest; * values MUST be of type Byte Sequence, which
-   contain the output of the digest calculation.
+   Section 3.2 of [STRUCTURED-FIELDS]) where:
+
+   *  members MUST NOT have parameters (see Section 6.6);
+
+   *  keys convey the hashing algorithm (see Section 5) used to compute
+      the digest;
+
+   *  values MUST be of type Byte Sequence, which contain the output of
+      the digest calculation.
 
    Representation-Digest   = sf-dictionary
 
@@ -393,10 +398,15 @@ Table of Contents
    to communicate digests that are calculated using a hashing algorithm
    applied to the actual message content (see Section 6.4 of
    [SEMANTICS]).  It is a Structured Fields Dictionary (see Section 3.2
-   of [STRUCTURED-FIELDS]) where: * members cannot have parameters; *
-   keys convey the hashing algorithm (see Section 5) used to compute the
-   digest; * values MUST be Byte Sequences containing the output of the
-   digest calculation.
+   of [STRUCTURED-FIELDS]) where:
+
+   *  members MUST NOT have parameters (see Section 6.6);
+
+   *  keys convey the hashing algorithm (see Section 5) used to compute
+      the digest;
+
+   *  values MUST be Byte Sequences containing the output of the digest
+      calculation.
 
    Content-Digest   = sf-dictionary
 
@@ -666,6 +676,13 @@ Table of Contents
    against such attacks, endpoints could restrict their set of supported
    algorithms to stronger ones and protect the fields value by using TLS
    and/or digital signatures.
+
+   Integrity fields do not support attaching additional information to a
+   digest using dictionary member parameters, because if they are used
+   to validate the input, an attacker could alter them to steer the
+   validation process.  Hash algorithms can overcome this limitation
+   defining a safe way to encode specific parameters into the digest and
+   validate its value.
 
 6.7.  Resource exhaustion
 

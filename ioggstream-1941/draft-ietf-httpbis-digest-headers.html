@@ -1481,32 +1481,37 @@ several examples are provided in <a href="#resource-representation" class="xref"
 <p id="section-2-3">When a message has no "representation data" it is still possible to assert that no
 "representation data" was sent by computing the digest on an empty
 string (see <a href="#usage-in-signatures" class="xref">Section 6.3</a>).<a href="#section-2-3" class="pilcrow">¶</a></p>
-<p id="section-2-4"><code>Representation-Digest</code> is a Structured Fields <code>Dictionary</code> (see <span><a href="https://rfc-editor.org/rfc/rfc8941#section-3.2" class="relref">Section 3.2</a> of [<a href="#STRUCTURED-FIELDS" class="xref">STRUCTURED-FIELDS</a>]</span>) where:
-* members cannot have parameters;
-* keys convey the hashing algorithm (see <a href="#algorithms" class="xref">Section 5</a>)
-  used to compute the digest;
-* values <span class="bcp14">MUST</span> be of type <code>Byte Sequence</code>,
-  which contain the output of the digest calculation.<a href="#section-2-4" class="pilcrow">¶</a></p>
-<div id="section-2-5">
+<p id="section-2-4"><code>Representation-Digest</code> is a Structured Fields <code>Dictionary</code> (see <span><a href="https://rfc-editor.org/rfc/rfc8941#section-3.2" class="relref">Section 3.2</a> of [<a href="#STRUCTURED-FIELDS" class="xref">STRUCTURED-FIELDS</a>]</span>) where:<a href="#section-2-4" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-2-5.1">members <span class="bcp14">MUST NOT</span> have parameters (see <a href="#sec-agility" class="xref">Section 6.6</a>);<a href="#section-2-5.1" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-2-5.2">keys convey the hashing algorithm (see <a href="#algorithms" class="xref">Section 5</a>)
+used to compute the digest;<a href="#section-2-5.2" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-2-5.3">values <span class="bcp14">MUST</span> be of type <code>Byte Sequence</code>,
+which contain the output of the digest calculation.<a href="#section-2-5.3" class="pilcrow">¶</a>
+</li>
+      </ul>
+<div id="section-2-6">
 <pre class="lang-abnf sourcecode">
 Representation-Digest   = sf-dictionary
-</pre><a href="#section-2-5" class="pilcrow">¶</a>
+</pre><a href="#section-2-6" class="pilcrow">¶</a>
 </div>
-<p id="section-2-6">For example:<a href="#section-2-6" class="pilcrow">¶</a></p>
-<div id="section-2-7">
+<p id="section-2-7">For example:<a href="#section-2-7" class="pilcrow">¶</a></p>
+<div id="section-2-8">
 <pre class="lang-http-message sourcecode">
 NOTE: '\' line wrapping per RFC 8792
 
 Representation-Digest: \
   sha-512=:WZDPaVn/7XgHaAy8pmojAkGWoRx2UFChF41A2svX+TaPm+AbwAgBWnrI\
   iYllu7BNNyealdVLvRwEmTHWXvJwew==:
-</pre><a href="#section-2-7" class="pilcrow">¶</a>
+</pre><a href="#section-2-8" class="pilcrow">¶</a>
 </div>
-<p id="section-2-8">The <code>Dictionary</code> type can be used, for example, to attach multiple digests
+<p id="section-2-9">The <code>Dictionary</code> type can be used, for example, to attach multiple digests
 calculated using different hashing algorithms in order to support a population
 of endpoints with different or evolving capabilities. Such an approach could
-support transitions away from weaker algorithms (see <a href="#algorithm-agility" class="xref">Section 6.6</a>).<a href="#section-2-8" class="pilcrow">¶</a></p>
-<div id="section-2-9">
+support transitions away from weaker algorithms (see <a href="#sec-agility" class="xref">Section 6.6</a>).<a href="#section-2-9" class="pilcrow">¶</a></p>
+<div id="section-2-10">
 <pre class="lang-http-message sourcecode">
 NOTE: '\' line wrapping per RFC 8792
 
@@ -1514,17 +1519,17 @@ Representation-Digest: \
   sha-256=:4REjxQ4yrqUVicfSKYNO/cF9zNj5ANbzgDZt3/h3Qxo=:,\
   sha-512=:WZDPaVn/7XgHaAy8pmojAkGWoRx2UFChF41A2svX+TaPm+AbwAgBWnrI\
   iYllu7BNNyealdVLvRwEmTHWXvJwew==:
-</pre><a href="#section-2-9" class="pilcrow">¶</a>
+</pre><a href="#section-2-10" class="pilcrow">¶</a>
 </div>
-<p id="section-2-10">A recipient <span class="bcp14">MAY</span> ignore any or all digests.
+<p id="section-2-11">A recipient <span class="bcp14">MAY</span> ignore any or all digests.
 This allows the recipient to choose which hashing algorithm(s) to use for
-validation instead of verifying every digest.<a href="#section-2-10" class="pilcrow">¶</a></p>
-<p id="section-2-11">A sender <span class="bcp14">MAY</span> send a digest without knowing whether the
+validation instead of verifying every digest.<a href="#section-2-11" class="pilcrow">¶</a></p>
+<p id="section-2-12">A sender <span class="bcp14">MAY</span> send a digest without knowing whether the
 recipient supports a given hashing algorithm, or even knowing that the recipient
-will ignore it.<a href="#section-2-11" class="pilcrow">¶</a></p>
-<p id="section-2-12"><code>Representation-Digest</code> can be sent in a trailer section.
+will ignore it.<a href="#section-2-12" class="pilcrow">¶</a></p>
+<p id="section-2-13"><code>Representation-Digest</code> can be sent in a trailer section.
 In this case,
-<code>Representation-Digest</code> <span class="bcp14">MAY</span> be merged into the header section; see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-semantics-19#section-6.5.1" class="relref">Section 6.5.1</a> of [<a href="#SEMANTICS" class="xref">SEMANTICS</a>]</span>.<a href="#section-2-12" class="pilcrow">¶</a></p>
+<code>Representation-Digest</code> <span class="bcp14">MAY</span> be merged into the header section; see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-semantics-19#section-6.5.1" class="relref">Section 6.5.1</a> of [<a href="#SEMANTICS" class="xref">SEMANTICS</a>]</span>.<a href="#section-2-13" class="pilcrow">¶</a></p>
 <div id="state-changing-requests">
 <section id="section-2.1">
         <h3 id="name-using-representation-digest">
@@ -1582,32 +1587,37 @@ An example is given in <a href="#post-not-request-uri" class="xref">Appendix B.7
 communicate digests that are calculated using a hashing algorithm applied to
 the actual message content (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-semantics-19#section-6.4" class="relref">Section 6.4</a> of [<a href="#SEMANTICS" class="xref">SEMANTICS</a>]</span>). It is a
 Structured Fields Dictionary (see <span><a href="https://rfc-editor.org/rfc/rfc8941#section-3.2" class="relref">Section 3.2</a> of [<a href="#STRUCTURED-FIELDS" class="xref">STRUCTURED-FIELDS</a>]</span>)
-where:
-* members cannot have parameters;
-* keys convey the hashing algorithm (see <a href="#algorithms" class="xref">Section 5</a>)
-  used to compute the digest;
-* values <span class="bcp14">MUST</span> be <code>Byte Sequences</code>
-  containing the output of the digest calculation.<a href="#section-3-1" class="pilcrow">¶</a></p>
-<div id="section-3-2">
+where:<a href="#section-3-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3-2.1">members <span class="bcp14">MUST NOT</span> have parameters (see <a href="#sec-agility" class="xref">Section 6.6</a>);<a href="#section-3-2.1" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-3-2.2">keys convey the hashing algorithm (see <a href="#algorithms" class="xref">Section 5</a>)
+used to compute the digest;<a href="#section-3-2.2" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-3-2.3">values <span class="bcp14">MUST</span> be <code>Byte Sequences</code>
+containing the output of the digest calculation.<a href="#section-3-2.3" class="pilcrow">¶</a>
+</li>
+      </ul>
+<div id="section-3-3">
 <pre class="lang-abnf sourcecode">
 Content-Digest   = sf-dictionary
-</pre><a href="#section-3-2" class="pilcrow">¶</a>
+</pre><a href="#section-3-3" class="pilcrow">¶</a>
 </div>
-<p id="section-3-3">For example:<a href="#section-3-3" class="pilcrow">¶</a></p>
-<div id="section-3-4">
+<p id="section-3-4">For example:<a href="#section-3-4" class="pilcrow">¶</a></p>
+<div id="section-3-5">
 <pre class="lang-http-message sourcecode">
 NOTE: '\' line wrapping per RFC 8792
 
 Content-Digest: \
   sha-512=:WZDPaVn/7XgHaAy8pmojAkGWoRx2UFChF41A2svX+TaPm+AbwAgBWnrI\
   iYllu7BNNyealdVLvRwEmTHWXvJwew==:
-</pre><a href="#section-3-4" class="pilcrow">¶</a>
+</pre><a href="#section-3-5" class="pilcrow">¶</a>
 </div>
-<p id="section-3-5">The <code>Dictionary</code> type can be used, for example, to attach multiple digests
+<p id="section-3-6">The <code>Dictionary</code> type can be used, for example, to attach multiple digests
 calculated using different hashing algorithms in order to support a population
 of endpoints with different or evolving capabilities. Such an approach could
-support transitions away from weaker algorithms (see <a href="#algorithm-agility" class="xref">Section 6.6</a>).<a href="#section-3-5" class="pilcrow">¶</a></p>
-<div id="section-3-6">
+support transitions away from weaker algorithms (see <a href="#sec-agility" class="xref">Section 6.6</a>).<a href="#section-3-6" class="pilcrow">¶</a></p>
+<div id="section-3-7">
 <pre class="lang-http-message sourcecode">
 NOTE: '\' line wrapping per RFC 8792
 
@@ -1615,17 +1625,17 @@ Representation-Digest: \
   sha-256=:4REjxQ4yrqUVicfSKYNO/cF9zNj5ANbzgDZt3/h3Qxo=:,\
   sha-512=:WZDPaVn/7XgHaAy8pmojAkGWoRx2UFChF41A2svX+TaPm+AbwAgBWnrI\
   iYllu7BNNyealdVLvRwEmTHWXvJwew==:
-</pre><a href="#section-3-6" class="pilcrow">¶</a>
+</pre><a href="#section-3-7" class="pilcrow">¶</a>
 </div>
-<p id="section-3-7">A recipient <span class="bcp14">MAY</span> ignore any or all digests.
+<p id="section-3-8">A recipient <span class="bcp14">MAY</span> ignore any or all digests.
 This allows the recipient to choose which hashing algorithm(s) to use for
-validation instead of verifying every digest.<a href="#section-3-7" class="pilcrow">¶</a></p>
-<p id="section-3-8">A sender <span class="bcp14">MAY</span> send a digest without
+validation instead of verifying every digest.<a href="#section-3-8" class="pilcrow">¶</a></p>
+<p id="section-3-9">A sender <span class="bcp14">MAY</span> send a digest without
 knowing whether the recipient supports a given hashing algorithm, or even knowing
-that the recipient will ignore it.<a href="#section-3-8" class="pilcrow">¶</a></p>
-<p id="section-3-9"><code>Content-Digest</code> can be sent in a trailer section.
+that the recipient will ignore it.<a href="#section-3-9" class="pilcrow">¶</a></p>
+<p id="section-3-10"><code>Content-Digest</code> can be sent in a trailer section.
 In this case,
-<code>Content-Digest</code> <span class="bcp14">MAY</span> be merged into the header section; see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-semantics-19#section-6.5.1" class="relref">Section 6.5.1</a> of [<a href="#SEMANTICS" class="xref">SEMANTICS</a>]</span>.<a href="#section-3-9" class="pilcrow">¶</a></p>
+<code>Content-Digest</code> <span class="bcp14">MAY</span> be merged into the header section; see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-semantics-19#section-6.5.1" class="relref">Section 6.5.1</a> of [<a href="#SEMANTICS" class="xref">SEMANTICS</a>]</span>.<a href="#section-3-10" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="want-fields">
@@ -1873,7 +1883,7 @@ depending on the encryption algorithm used; in those cases its value could not b
 a proof of integrity "at rest" unless the whole (e.g. encoded) content is persisted.<a href="#section-6.5-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="algorithm-agility">
+<div id="sec-agility">
 <section id="section-6.6">
         <h3 id="name-algorithm-agility">
 <a href="#section-6.6" class="section-number selfRef">6.6. </a><a href="#name-algorithm-agility" class="section-name selfRef">Algorithm Agility</a>
@@ -1902,6 +1912,13 @@ Integrity fields do not provide any mitigiations for downgrade or substitution
 attacks (see Section 1 of <span>[<a href="#RFC6211" class="xref">RFC6211</a>]</span>) of the hashing algorithm.
 To protect against such attacks, endpoints could restrict their set of supported algorithms
 to stronger ones and protect the fields value by using TLS and/or digital signatures.<a href="#section-6.6-5" class="pilcrow">¶</a></p>
+<p id="section-6.6-6">Integrity fields do not support attaching additional information to a digest
+using dictionary member parameters,
+because if they are used to validate the input,
+an attacker could alter them to steer the validation process.
+Hash algorithms can overcome this limitation
+defining a safe way to encode specific parameters into the digest
+and validate its value.<a href="#section-6.6-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="resource-exhaustion">
