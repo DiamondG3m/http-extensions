@@ -401,7 +401,8 @@ Table of Contents
    *  keys convey the hashing algorithm (see Section 5) used to compute
       the digest;
 
-   *  values MUST be Byte Sequences containing the output of the digest
+   *  values MUST be Byte Sequences (Section 3.3.5 of
+      [STRUCTURED-FIELDS]) containing the output of the digest
       calculation.
 
    Content-Digest   = sf-dictionary
