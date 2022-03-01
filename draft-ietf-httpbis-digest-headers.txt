@@ -6,7 +6,7 @@ HTTP                                                            R. Polli
 Internet-Draft                         Team Digitale, Italian Government
 Obsoletes: 3230 (if approved)                                  L. Pardue
 Intended status: Standards Track                              Cloudflare
-Expires: 1 September 2022                               28 February 2022
+Expires: 2 September 2022                                   1 March 2022
 
 
                              Digest Fields
@@ -19,7 +19,7 @@ Abstract
    representations.  The Content-Digest field can be used for the
    integrity of HTTP message content.  Want-Representation-Digest and
    Want-Content-Digest can be used to indicate a sender's interest and
-   preferences for receiving the respective integrity fields.
+   preferences for receiving the respective Integrity fields.
 
    This document obsoletes RFC 3230 and the Digest and Want-Digest HTTP
    fields.
@@ -54,7 +54,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 September 2022.
+   This Internet-Draft will expire on 2 September 2022.
 
 Copyright Notice
 
@@ -98,7 +98,7 @@ Table of Contents
    8.  References
      8.1.  Normative References
      8.2.  Informative References
-   Appendix A.  Resource Representation and Representation-Data
+   Appendix A.  Resource Representation and Representation Data
    Appendix B.  Examples of Unsolicited Digest
      B.1.  Server Returns Full Representation Data
      B.2.  Server Returns No Representation Data
@@ -193,8 +193,8 @@ Table of Contents
 
    This document defines the Representation-Digest request and response
    header and trailer field (Section 2) that contains a digest value
-   computed by applying a hashing algorithm to selected representation
-   data (Section 3.2 of [SEMANTICS]).  Basing Representation-Digest on
+   computed by applying a hashing algorithm to "selected representation
+   data" (Section 3.2 of [SEMANTICS]).  Basing Representation-Digest on
    the selected representation makes it straightforward to apply it to
    use-cases where the transferred data requires some sort of
    manipulation to be considered a representation or conveys a partial
@@ -213,8 +213,8 @@ Table of Contents
    either.
 
    Representation-Digest and Content-Digest are collectively termed
-   integrity fields.  Want-Representation-Digest and Want-Content-
-   Digestare collectively termed integrity preference fields.
+   Integrity fields.  Want-Representation-Digest and Want-Content-
+   Digestare collectively termed Integrity preference fields.
 
    Integrity fields are tied to the Content-Encoding and Content-Type
    header fields.  Therefore, a given resource may have multiple
@@ -234,7 +234,7 @@ Table of Contents
    integrity.  It also coined the term "instance" and "instance
    manipulation" in order to explain concepts that are now more
    universally defined, and implemented, as HTTP semantics such as
-   selected representation data (Section 3.2 of [SEMANTICS]).
+   "selected representation data" (Section 3.2 of [SEMANTICS]).
 
    Experience has shown that implementations of [RFC3230] have
    interpreted the meaning of "instance" inconsistently, leading to
@@ -249,7 +249,7 @@ Table of Contents
    In order to address potential inconsistencies and ambiguity across
    implementations of Digest and Want-Digest, this document obsoletes
    [RFC3230].  The Integrity fields (Section 2 and Section 3) and
-   integrity preference fields (Section 4) defined in this document are
+   Integrity preference fields (Section 4) defined in this document are
    better aligned with current HTTP semantics and have names that more
    clearly articulate the intended usages.
 
@@ -264,20 +264,22 @@ Table of Contents
    This document uses the Augmented BNF defined in [RFC5234] and updated
    by [RFC7405].
 
-   The terms Dictionary, List, sf-dictionary, sf-integer and sf-binary
-   are imported from [STRUCTURED-FIELDS].
+   This document uses the Boolean, Byte Sequence, Dictionary, Integer
+   and List types from [STRUCTURED-FIELDS] along with the sf-dictionary
+   and sf-list ABNF rules.
 
    The definitions "representation", "selected representation",
-   "representation data", "representation metadata", and "content" in
-   this document are to be interpreted as described in [SEMANTICS].
+   "representation data", "representation metadata", "user agent" and
+   "content" in this document are to be interpreted as described in
+   [SEMANTICS].
 
    Hashing algorithm names respect the casing used in their definition
    document (e.g.  SHA-1, CRC32c) whereas hashing algorithm keys are
    quoted (e.g. "sha", "crc32c").
 
    The term "checksum" describes the output of the application of an
-   algorithm to a sequence of bytes, whereas digest is only used in
-   relation to the value of the fields.
+   algorithm to a sequence of bytes, whereas "digest" is only used in
+   relation to the value contained in the fields.
 
    Integrity fields: collective term for Representation-Digest and
    Content-Digest
@@ -289,7 +291,7 @@ Table of Contents
 
    The Representation-Digest HTTP field can be used in requests and
    responses to communicate digests that are calculated using a hashing
-   algorithm applied to the entire selected representation data (see
+   algorithm applied to the entire "selected representation data" (see
    Section 8.1 of [SEMANTICS]).
 
    Representations take into account the effect of the HTTP semantics on
@@ -300,18 +302,20 @@ Table of Contents
    illustrate HTTP representation concepts, several examples are
    provided in Appendix A.
 
-   When a message has no representation data it is still possible to
-   assert that no representation data was sent computing the
-   representation digest on an empty string (see Section 6.3).
+   When a message has no "representation data" it is still possible to
+   assert that no "representation data" was sent by computing the digest
+   on an empty string (see Section 6.3).
 
    Representation-Digest is a Structured Fields Dictionary (see
-   Section 3.2 of [STRUCTURED-FIELDS]):
+   Section 3.2 of [STRUCTURED-FIELDS]) where:
+
+   *  keys convey the hashing algorithm (see Section 5) used to compute
+      the digest;
+
+   *  values MUST be of type Byte Sequence, which contain the output of
+      the digest calculation.
 
    Representation-Digest   = sf-dictionary
-
-   Representation-Digest member-keys convey the hashing algorithm (see
-   Section 5) used to compute the digest.  Member-values are the output
-   of the digest calculation.  Member-values MUST be of type sf-binary.
 
    For example:
 
@@ -321,12 +325,11 @@ Table of Contents
      sha-512=:WZDPaVn/7XgHaAy8pmojAkGWoRx2UFChF41A2svX+TaPm+AbwAgBWnrI\
      iYllu7BNNyealdVLvRwEmTHWXvJwew==:
 
-   Since Representation-Digest is a Dictionary, it can contain multiple
-   members.  This could be used, for example, to attach multiple digests
-   calculated using different hashing algorithms in order to support a
-   population of endpoints with different or evolving capabilities.
-   Such an approach could support transitions away from weaker
-   algorithms (see Section 6.6).
+   The Dictionary type can be used, for example, to attach multiple
+   digests calculated using different hashing algorithms in order to
+   support a population of endpoints with different or evolving
+   capabilities.  Such an approach could support transitions away from
+   weaker algorithms (see Section 6.6).
 
    NOTE: '\' line wrapping per RFC 8792
 
@@ -335,14 +338,13 @@ Table of Contents
      sha-512=:WZDPaVn/7XgHaAy8pmojAkGWoRx2UFChF41A2svX+TaPm+AbwAgBWnrI\
      iYllu7BNNyealdVLvRwEmTHWXvJwew==:
 
-   A recipient MAY ignore any or all of members of Representation-
-   Digest.  This allows the recipient to choose which hashing
-   algorithm(s) to use for validation instead of verifying every
-   received representation-data-digest.
+   A recipient MAY ignore any or all digests.  This allows the recipient
+   to choose which hashing algorithm(s) to use for validation instead of
+   verifying every digest.
 
-   A sender MAY send a Representation-Digest member without knowing
-   whether the recipient supports a given hashing algorithm, or even
-   knowing that the recipient will ignore it.
+   A sender MAY send a digest without knowing whether the recipient
+   supports a given hashing algorithm, or even knowing that the
+   recipient will ignore it.
 
    Representation-Digest can be sent in a trailer section.  In this
    case, Representation-Digest MAY be merged into the header section;
@@ -394,13 +396,16 @@ Table of Contents
    to communicate digests that are calculated using a hashing algorithm
    applied to the actual message content (see Section 6.4 of
    [SEMANTICS]).  It is a Structured Fields Dictionary (see Section 3.2
-   of [STRUCTURED-FIELDS]):
+   of [STRUCTURED-FIELDS]) where:
+
+   *  keys convey the hashing algorithm (see Section 5) used to compute
+      the digest;
+
+   *  values MUST be Byte Sequences (Section 3.3.5 of
+      [STRUCTURED-FIELDS]) containing the output of the digest
+      calculation.
 
    Content-Digest   = sf-dictionary
-
-   Content-Digest member-keys convey the hashing algorithm (see
-   Section 5) used to compute the digest.  Member-values are the output
-   of the digest calculation.  Member-values MUST be of type sf-binary.
 
    For example:
 
@@ -410,12 +415,11 @@ Table of Contents
      sha-512=:WZDPaVn/7XgHaAy8pmojAkGWoRx2UFChF41A2svX+TaPm+AbwAgBWnrI\
      iYllu7BNNyealdVLvRwEmTHWXvJwew==:
 
-   Since Content-Digest is a Dictionary, it can contain multiple
-   members.  This could be used, for example, to attach multiple digests
-   calculated using different hashing algorithms in order to support a
-   population of endpoints with different or evolving capabilities.
-   Such an approach could support transitions away from weaker
-   algorithms (see Section 6.6).
+   The Dictionary type can be used, for example, to attach multiple
+   digests calculated using different hashing algorithms in order to
+   support a population of endpoints with different or evolving
+   capabilities.  Such an approach could support transitions away from
+   weaker algorithms (see Section 6.6).
 
    NOTE: '\' line wrapping per RFC 8792
 
@@ -424,14 +428,13 @@ Table of Contents
      sha-512=:WZDPaVn/7XgHaAy8pmojAkGWoRx2UFChF41A2svX+TaPm+AbwAgBWnrI\
      iYllu7BNNyealdVLvRwEmTHWXvJwew==:
 
-   A recipient MAY ignore any or all of members of Content-Digest.  This
-   allows the recipient to choose which hashing algorithm(s) to use for
-   validation instead of verifying every received representation-data-
-   digest.
+   A recipient MAY ignore any or all digests.  This allows the recipient
+   to choose which hashing algorithm(s) to use for validation instead of
+   verifying every digest.
 
-   A sender MAY send a representation-data-digest using a hashing
-   algorithm without knowing whether the recipient supports the hashing
-   algorithm, or even knowing that the recipient will ignore it.
+   A sender MAY send a digest without knowing whether the recipient
+   supports a given hashing algorithm, or even knowing that the
+   recipient will ignore it.
 
    Content-Digest can be sent in a trailer section.  In this case,
    Content-Digest MAY be merged into the header section; see
@@ -439,7 +442,7 @@ Table of Contents
 
 4.  Integrity preference fields
 
-   Senders can indicate their interest in integrity fields and hashing
+   Senders can indicate their interest in Integrity fields and hashing
    algorithm preferences using the Want-Representation-Digest or Want-
    Content-Digest fields.  These can be used in both requests and
    responses.
@@ -453,17 +456,18 @@ Table of Contents
    representation metadata, using the Content-Digest field.
 
    Want-Representation-Digest and Want-Content-Digest are Structured
-   Fields List (see Section 3.2 of [STRUCTURED-FIELDS]):
+   Fields Dictionary (see Section 3.2 of [STRUCTURED-FIELDS]) where:
+
+   *  keys convey the hashing algorithm (see Section 5);
+
+   *  values MUST be of type Integer (Section 3.3.1 of
+      [STRUCTURED-FIELDS]) in the range 0 to 10 inclusive. 1 is the
+      least preferred, 10 is the most preferred, and a value of 0 means
+      "not acceptable".  Values convey an ascending, relative, weighted
+      preference.
 
       Want-Representation-Digest = sf-dictionary
       Want-Content-Digest = sf-dictionary
-
-   Dictionary members convey hashing algorithm preferences (see
-   Section 5).  Member-keys convey the hashing algorithm (see
-   Section 5), member-values convey an ascending relative weighted
-   preference between 0 and 10 inclusive. 1 is the least preferred, 10
-   is the most preferred; a value of 0 means "not acceptable".  Member-
-   values MUST be of type sf-integer, in the range 0 to 10 inclusive.
 
    Examples:
 
@@ -477,9 +481,8 @@ Table of Contents
    The "Hash Algorithms for HTTP Digest Fields", maintained by IANA at
    https://www.iana.org/assignments/http-dig-alg/
    (https://www.iana.org/assignments/http-dig-alg/), registers
-   algorithms for use with the Representation-Digest, Content-Digest,
-   Want-Representation-Digest, and Want-Content-Digest fields defined in
-   this document.
+   algorithms for use with the Integrity and Integrity preference fields
+   defined in this document.
 
    This registry uses the Specification Required policy (Section 4.6 of
    [RFC8126]).
@@ -504,9 +507,9 @@ Table of Contents
    *  Reference(s): a set of pointers to the primary documents defining
       the algorithm and key
 
-   Insecure digest algorithms MAY be used to preserve integrity against
+   Insecure hashing algorithms MAY be used to preserve integrity against
    corruption, but MUST NOT be used in a potentially adversarial
-   setting; for example, when signing digest fields' values for
+   setting; for example, when signing Integrity fields' values for
    authenticity.
 
    The entries in Table 1 are registered by this document.
@@ -563,24 +566,23 @@ Table of Contents
 6.1.  HTTP Messages Are Not Protected In Full
 
    This document specifies a data integrity mechanism that protects HTTP
-   representation data or content, but not HTTP header and trailer
+   "representation data" or content, but not HTTP header and trailer
    fields, from certain kinds of corruption.
 
-   Digest fields are not intended to be a general protection against
+   Integrity fields are not intended to be a general protection against
    malicious tampering with HTTP messages.  This can be achieved by
    combining it with other approaches such as transport-layer security
    or digital signatures.
 
 6.2.  End-to-End Integrity
 
-   Representation-Digest and Content-Digest can help detect
-   representation data or content modification due to implementation
-   errors, undesired "transforming proxies" (see Section 7.7 of
-   [SEMANTICS]) or other actions as the data passes across multiple hops
-   or system boundaries.  Even a simple mechanism for end-to-end
-   representation data integrity is valuable because user-agent can
-   validate that resource retrieval succeeded before handing off to a
-   HTML parser, video player etc. for parsing.
+   Integrity fields can help detect "representation data" or content
+   modification due to implementation errors, undesired "transforming
+   proxies" (see Section 7.7 of [SEMANTICS]) or other actions as the
+   data passes across multiple hops or system boundaries.  Even a simple
+   mechanism for end-to-end "representation data" integrity is valuable
+   because a user agent can validate that resource retrieval succeeded
+   before handing off to a HTML parser, video player etc. for parsing.
 
    Note that using these mechanisms alone does not provide end-to-end
    integrity of HTTP messages over multiple hops, since metadata could
@@ -592,17 +594,17 @@ Table of Contents
    Digital signatures are widely used together with checksums to provide
    the certain identification of the origin of a message [NIST800-32].
    Such signatures can protect one or more HTTP fields and there are
-   additional considerations when Representation-Digest or Content-
-   Digest is included in this set.
+   additional considerations when Integrity fields are included in this
+   set.
 
    Digests explicitly depend on the "representation metadata" (e.g. the
    values of Content-Type, Content-Encoding etc).  A signature that
-   protects Representation-Digest but not other "representation
-   metadata" can expose the communication to tampering.  For example, an
-   actor could manipulate the Content-Type field-value and cause a
-   digest validation failure at the recipient, preventing the
-   application from accessing the representation.  Such an attack
-   consumes the resources of both endpoints.  See also Section 2.2.
+   protects Integrity fields but not other "representation metadata" can
+   expose the communication to tampering.  For example, an actor could
+   manipulate the Content-Type field-value and cause a digest validation
+   failure at the recipient, preventing the application from accessing
+   the representation.  Such an attack consumes the resources of both
+   endpoints.  See also Section 2.2.
 
    Signatures are likely to be deemed an adversarial setting when
    applying Integrity fields; see Section 5.  Using signatures to
@@ -610,17 +612,17 @@ Table of Contents
    endpoints to detect if an eventual payload has been stripped or
    added.
 
-   Any mangling of digest fields, including de-duplication of
-   representation-data-digest values or combining different field values
-   (see Section 5.2 of [SEMANTICS]) might affect signature validation.
+   Any mangling of Integrity fields, including digests' de-duplication
+   or combining different field values (see Section 5.2 of [SEMANTICS])
+   might affect signature validation.
 
 6.4.  Usage in Trailer Fields
 
-   Before sending digest fields in a trailer section, the sender should
-   consider that intermediaries are explicitly allowed to drop any
-   trailer (see Section 6.5.2 of [SEMANTICS]).
+   Before sending Integrity fields in a trailer section, the sender
+   should consider that intermediaries are explicitly allowed to drop
+   any trailer (see Section 6.5.2 of [SEMANTICS]).
 
-   When digest fields are used in a trailer section, the field-values
+   When Integrity fields are used in a trailer section, the field-values
    are received after the content.  Eager processing of content before
    the trailer section prevents digest validation, possibly leading to
    processing of invalid data.
@@ -659,10 +661,10 @@ Table of Contents
 
    Transition from weak algorithms is supported by negotiation of
    hashing algorithm using Want-Representation-Digest or Want-Content-
-   Digest (see Section 4) or by sending multiple representation-data-
-   digest values from which the receiver chooses.  Endpoints are advised
-   that sending multiple values consumes resources, which may be wasted
-   if the receiver ignores them (see Section 2).
+   Digest (see Section 4) or by sending multiple digests from which the
+   receiver chooses.  Endpoints are advised that sending multiple values
+   consumes resources, which may be wasted if the receiver ignores them
+   (see Section 2).
 
    While algorithm agility allows the migration to stronger algorithms
    it does not prevent the use of weaker algorithms.  Integrity fields
@@ -674,10 +676,10 @@ Table of Contents
 
 6.7.  Resource exhaustion
 
-   Digest fields validation consumes computational resources.  In order
-   to avoid resource exhaustion, implementations can restrict validation
-   of the algorithm types, number of validations, or the size of
-   content.
+   Integrity fields validation consumes computational resources.  In
+   order to avoid resource exhaustion, implementations can restrict
+   validation of the algorithm types, number of validations, or the size
+   of content.
 
 7.  IANA Considerations
 
@@ -858,7 +860,7 @@ Table of Contents
               APIs", RFC 7807, DOI 10.17487/RFC7807, March 2016,
               <https://www.rfc-editor.org/rfc/rfc7807>.
 
-Appendix A.  Resource Representation and Representation-Data
+Appendix A.  Resource Representation and Representation Data
 
    The following examples show how representation metadata, payload
    transformations and method impacts on the message and content.  When
@@ -1310,7 +1312,7 @@ B.9.  Digest with PATCH
 
 B.10.  Error responses
 
-   In error responses, the representation-data does not necessarily
+   In error responses, the "representation data" does not necessarily
    refer to the target resource.  Instead, it refers to the
    representation of the error.
 
@@ -1417,7 +1419,7 @@ C.2.  Server Selects Algorithm Unsupported by Client
 
    GET /items/123 HTTP/1.1
    Host: foo.example
-   Want-Representation-Digest: sha=1
+   Want-Representation-Digest: sha=10
 
            Figure 32: GET Request with Want-Representation-Digest
 
@@ -1442,13 +1444,13 @@ C.3.  Server Does Not Support Client Algorithm and Returns an Error
    In this example, the client requests a "sha" Representation-Digest,
    and the server returns an error with problem details [RFC7807]
    contained in the content.  The problem details contain a list of the
-   digest algorithms that the server supports.  This is purely an
+   hashing algorithms that the server supports.  This is purely an
    example, this specification does not define any format or
    requirements for such content.
 
    GET /items/123 HTTP/1.1
    Host: foo.example
-   Want-Representation-Digest: sha=1
+   Want-Representation-Digest: sha=10
 
            Figure 34: GET Request with Want-Representation-Digest
 
@@ -1476,7 +1478,7 @@ Acknowledgements
    this specification by reporting bugs, asking smart questions,
    drafting or reviewing text, and evaluating open issues: Mike Bishop,
    Brian Campbell, Matthew Kerwin, James Manger, Tommy Pauly, Sean
-   Turner, and Erik Wilde.
+   Turner, Justin Richer, and Erik Wilde.
 
 Code Samples
 
