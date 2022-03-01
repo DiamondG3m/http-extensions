@@ -455,7 +455,7 @@ Table of Contents
    representation metadata, using the Content-Digest field.
 
    Want-Representation-Digest and Want-Content-Digest are Structured
-   Fields List (see Section 3.2 of [STRUCTURED-FIELDS]) where:
+   Fields Dictionary (see Section 3.2 of [STRUCTURED-FIELDS]) where:
 
    *  keys convey the hashing algorithm (see Section 5);
 
