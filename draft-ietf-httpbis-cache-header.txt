@@ -4,8 +4,8 @@
 
 HTTP                                                       M. Nottingham
 Internet-Draft                                                    Fastly
-Intended status: Standards Track                            2 March 2022
-Expires: 3 September 2022
+Intended status: Standards Track                           February 2022
+Expires: 1 September 2022
 
 
               The Cache-Status HTTP Response Header Field
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 September 2022.
+   This Internet-Draft will expire on 5 August 2022.
 
 Copyright Notice
 
@@ -353,7 +353,7 @@ Table of Contents
    Registration requests should use the following template:
 
    Name:  [a name for the Cache-Status Parameter; see Section 3.1.2 of
-      [STRUCTURED-FIELDS] for syntactic requirements ]
+      [STRUCTURED-FIELDS] for syntactic requirements]
 
    Description:  [a description of the parameter semantics and value]
 
@@ -444,7 +444,7 @@ Table of Contents
 7.2.  Informative References
 
    [ENTANGLE] Kettle, J., "Web Cache Entanglement: Novel Pathways to
-              Poisoning", 2020,
+              Poisoning", September 2020,
               <https://portswigger.net/research/web-cache-entanglement>.
 
 Author's Address
