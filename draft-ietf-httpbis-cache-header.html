@@ -1223,7 +1223,7 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
         <h3 id="name-the-hit-parameter">
 <a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-the-hit-parameter" class="section-name selfRef">The hit Parameter</a>
         </h3>
-<p id="section-2.1-1">"hit"'s value is a Boolean that, when true, indicates that the request was satisfied by the cache; that is, it was not forwarded, and the response was obtained from the cache.<a href="#section-2.1-1" class="pilcrow">¶</a></p>
+<p id="section-2.1-1">The value of "hit" is a Boolean that, when true, indicates that the request was satisfied by the cache; that is, it was not forwarded, and the response was obtained from the cache.<a href="#section-2.1-1" class="pilcrow">¶</a></p>
 <p id="section-2.1-2">A response that was originally produced by the origin but was modified by the cache (for example, a 304 or 206 status code) is still considered a hit, as long as it did not go forward (e.g., for validation).<a href="#section-2.1-2" class="pilcrow">¶</a></p>
 <p id="section-2.1-3">A response that was in cache but not able to be used without going forward (e.g., because it was stale or partial) is not considered a hit. Note that a stale response that is used without going forward (e.g., because the origin server is not available) can be considered a hit.<a href="#section-2.1-3" class="pilcrow">¶</a></p>
 <p id="section-2.1-4">"hit" and "fwd" are exclusive; only one of them should appear on each list member.<a href="#section-2.1-4" class="pilcrow">¶</a></p>
@@ -1286,7 +1286,7 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
         <h3 id="name-the-fwd-status-parameter">
 <a href="#section-2.3" class="section-number selfRef">2.3. </a><a href="#name-the-fwd-status-parameter" class="section-name selfRef">The fwd-status Parameter</a>
         </h3>
-<p id="section-2.3-1">"fwd-status"'s value is an Integer that indicates which status code (see <span>[<a href="#HTTP" class="xref">HTTP</a>], <a href="https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-semantics-19#section-15" class="relref">Section 15</a></span>) the next-hop server returned in response to the forwarded request. Only meaningful when "fwd" is present; if "fwd-status" is not present but "fwd" is, it defaults to the status code sent in the response.<a href="#section-2.3-1" class="pilcrow">¶</a></p>
+<p id="section-2.3-1">The value of "fwd-status" is an Integer that indicates which status code (see <span>[<a href="#HTTP" class="xref">HTTP</a>], <a href="https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-semantics-19#section-15" class="relref">Section 15</a></span>) the next-hop server returned in response to the forwarded request. Only meaningful when "fwd" is present; if "fwd-status" is not present but "fwd" is, it defaults to the status code sent in the response.<a href="#section-2.3-1" class="pilcrow">¶</a></p>
 <p id="section-2.3-2">This parameter is useful to distinguish cases when the next-hop server sends a 304 (Not Modified) response to a conditional request or a 206 (Partial Content) response because of a range request.<a href="#section-2.3-2" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1295,7 +1295,7 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
         <h3 id="name-the-ttl-parameter">
 <a href="#section-2.4" class="section-number selfRef">2.4. </a><a href="#name-the-ttl-parameter" class="section-name selfRef">The ttl Parameter</a>
         </h3>
-<p id="section-2.4-1">"ttl"'s value is an Integer that indicates the response's remaining freshness lifetime (see <span>[<a href="#HTTP-CACHING" class="xref">HTTP-CACHING</a>], <a href="https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-cache-19#section-4.2.1" class="relref">Section 4.2.1</a></span>) as calculated by the cache, as an integer number of seconds, measured as closely as possible to when the response header section is sent by the cache. This includes freshness assigned by the cache through, for example, heuristics (see <span>[<a href="#HTTP-CACHING" class="xref">HTTP-CACHING</a>], <a href="https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-cache-19#section-4.2.2" class="relref">Section 4.2.2</a></span>), local configuration, or other factors. It may be negative, to indicate staleness.<a href="#section-2.4-1" class="pilcrow">¶</a></p>
+<p id="section-2.4-1">The value of "ttl" is an Integer that indicates the response's remaining freshness lifetime (see <span>[<a href="#HTTP-CACHING" class="xref">HTTP-CACHING</a>], <a href="https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-cache-19#section-4.2.1" class="relref">Section 4.2.1</a></span>) as calculated by the cache, as an integer number of seconds, measured as closely as possible to when the response header section is sent by the cache. This includes freshness assigned by the cache through, for example, heuristics (see <span>[<a href="#HTTP-CACHING" class="xref">HTTP-CACHING</a>], <a href="https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-cache-19#section-4.2.2" class="relref">Section 4.2.2</a></span>), local configuration, or other factors. It may be negative, to indicate staleness.<a href="#section-2.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="the-stored-parameter">
@@ -1303,7 +1303,7 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
         <h3 id="name-the-stored-parameter">
 <a href="#section-2.5" class="section-number selfRef">2.5. </a><a href="#name-the-stored-parameter" class="section-name selfRef">The stored Parameter</a>
         </h3>
-<p id="section-2.5-1">"stored"'s value is a Boolean that indicates whether the cache stored the response (see <span>[<a href="#HTTP-CACHING" class="xref">HTTP-CACHING</a>], <a href="https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-cache-19#section-3" class="relref">Section 3</a></span>); a true value indicates that it did. Only meaningful when fwd is present.<a href="#section-2.5-1" class="pilcrow">¶</a></p>
+<p id="section-2.5-1">The value of "stored" is a Boolean that indicates whether the cache stored the response (see <span>[<a href="#HTTP-CACHING" class="xref">HTTP-CACHING</a>], <a href="https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-cache-19#section-3" class="relref">Section 3</a></span>); a true value indicates that it did. Only meaningful when fwd is present.<a href="#section-2.5-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="the-collapsed-parameter">
@@ -1311,7 +1311,7 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
         <h3 id="name-the-collapsed-parameter">
 <a href="#section-2.6" class="section-number selfRef">2.6. </a><a href="#name-the-collapsed-parameter" class="section-name selfRef">The collapsed Parameter</a>
         </h3>
-<p id="section-2.6-1">"collapsed"'s value is a Boolean that indicates whether this request was collapsed together with one or more other forward requests (see <span>[<a href="#HTTP-CACHING" class="xref">HTTP-CACHING</a>], <a href="https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-cache-19#section-4" class="relref">Section 4</a></span>). If true, the response was successfully reused; if not, a new request had to be made. If not present, the request was not collapsed with others. Only meaningful when fwd is present.<a href="#section-2.6-1" class="pilcrow">¶</a></p>
+<p id="section-2.6-1">The value of "collapsed" is a Boolean that indicates whether this request was collapsed together with one or more other forward requests (see <span>[<a href="#HTTP-CACHING" class="xref">HTTP-CACHING</a>], <a href="https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-cache-19#section-4" class="relref">Section 4</a></span>). If true, the response was successfully reused; if not, a new request had to be made. If not present, the request was not collapsed with others. Only meaningful when fwd is present.<a href="#section-2.6-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="the-key-parameter">
@@ -1319,7 +1319,7 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
         <h3 id="name-the-key-parameter">
 <a href="#section-2.7" class="section-number selfRef">2.7. </a><a href="#name-the-key-parameter" class="section-name selfRef">The key Parameter</a>
         </h3>
-<p id="section-2.7-1">"key"'s value is a String that conveys a representation of the cache key (see <span>[<a href="#HTTP-CACHING" class="xref">HTTP-CACHING</a>], <a href="https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-cache-19#section-2" class="relref">Section 2</a></span>) used for the response. Note that this may be implementation specific.<a href="#section-2.7-1" class="pilcrow">¶</a></p>
+<p id="section-2.7-1">The value of "key" is a String that conveys a representation of the cache key (see <span>[<a href="#HTTP-CACHING" class="xref">HTTP-CACHING</a>], <a href="https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-cache-19#section-2" class="relref">Section 2</a></span>) used for the response. Note that this may be implementation specific.<a href="#section-2.7-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="the-detail-parameter">
@@ -1327,16 +1327,15 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
         <h3 id="name-the-detail-parameter">
 <a href="#section-2.8" class="section-number selfRef">2.8. </a><a href="#name-the-detail-parameter" class="section-name selfRef">The detail Parameter</a>
         </h3>
-<p id="section-2.8-1">"detail" allows implementations to convey additional information not captured in other parameters, such as implementation-specific states or other caching-related metrics.<a href="#section-2.8-1" class="pilcrow">¶</a></p>
-<p id="section-2.8-2">Its value is either a String or a Token.<a href="#section-2.8-2" class="pilcrow">¶</a></p>
-<p id="section-2.8-3">For example:<a href="#section-2.8-3" class="pilcrow">¶</a></p>
-<div id="section-2.8-4">
+<p id="section-2.8-1">The value of "detail" is either a String or a Token that allows implementations to convey additional information not captured in other parameters, such as implementation-specific states or other caching-related metrics.<a href="#section-2.8-1" class="pilcrow">¶</a></p>
+<p id="section-2.8-2">For example:<a href="#section-2.8-2" class="pilcrow">¶</a></p>
+<div id="section-2.8-3">
 <pre class="lang-http-message sourcecode">
 Cache-Status: ExampleCache; hit; detail=MEMORY
-</pre><a href="#section-2.8-4" class="pilcrow">¶</a>
+</pre><a href="#section-2.8-3" class="pilcrow">¶</a>
 </div>
-<p id="section-2.8-5">The semantics of a detail parameter are always specific to the cache that sent it; even if a member of details from another cache shares the same name, it might not mean the same thing.<a href="#section-2.8-5" class="pilcrow">¶</a></p>
-<p id="section-2.8-6">This parameter is intentionally limited. If an implementation's developer or operator needs to convey additional information in an interoperable fashion, they are encouraged to register extension parameters (see <a href="#register" class="xref">Section 4</a>) or define another header field.<a href="#section-2.8-6" class="pilcrow">¶</a></p>
+<p id="section-2.8-4">The semantics of a detail parameter are always specific to the cache that sent it; even if a member of details from another cache shares the same name, it might not mean the same thing.<a href="#section-2.8-4" class="pilcrow">¶</a></p>
+<p id="section-2.8-5">This parameter is intentionally limited. If an implementation's developer or operator needs to convey additional information in an interoperable fashion, they are encouraged to register extension parameters (see <a href="#register" class="xref">Section 4</a>) or define another header field.<a href="#section-2.8-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
